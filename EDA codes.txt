@@ -1,0 +1,85 @@
+Eploratory data analysis process
+
+1. Import required libraries for EDA(Eploratory Data Analysis)
+Example:
+import pandas as pd
+import numpy as np
+import seaborn as sns                       #visualisation
+import matplotlib.pyplot as plt             #visualisation
+%matplotlib inline     
+sns.set(color_codes=True)
+
+2.Load data to data frame(df)
+- Upload data to jupytalab book
+- Do this command: 
+
+df = pd.read_csv("data.csv")
+# To display the top 5 rows 
+df.head(5) 
+NB: Put 5 rows if thats what the data you want to explore requires
+
+3. Check the bottom 5 rows using this command
+df.tail(5)
+
+4. Checking the types of data involved, we execute the command "df.dtypes". If some data involves prices, we need to check if the data is stored as an integer or a string. if stored as a string, we need to convert it to an integer
+- Strings are sequences of characters that are used for conveying textual information. They are enclosed in single or double quotation marks, like so: "Hello World".
+- Ints, or integers, are whole numbers. They are used to represent numerical data, and you can do any mathematical operation.
+- Integers are not placed in doble quotations like "7"(this is a string).
+
+Data type conversion
+- Sometimes when you're storing data, or when you receive input from a user in one type, you'll need to manipulate and perform different kinds of operations on that data.
+- Since each data type can be manipulated in different ways, this often means that you'll need to convert it.
+- To convert, or cast, a string to an integer in Python, you use the "int()" built-in function.
+- The general syntax looks something like this: int("str")
+- Conversion: print(int("str"))
+- Check data type: print(type(int("str")))
+
+5. Dropping irrelevant columns
+- This is part of data cleaning
+- Sometimes there would be many columns that we never use/need
+- Use the command: df = df.drop(['column1', 'column2', 'etc'], axis=1)
+- Use the command: df = df.dropna() for dropping empty cells
+- Use the command: print(duplicated()) or duplicate_rows_df = df[df.duplicated()] to check for duplicated data. If it returns as True, then there are duplicated data but if it returns as false then there are none.
+- Use the command:df.drop_duplicates(inplace = True) to remove duplicated data
+
+6. Renaming Columns
+- Use the command: df = df.rename(columns={"column1": "new_name", "column2": "new_name"}) df.head()
+
+7. Checking the shape of the data
+- Use the command: df.shape
+- Use the command: print("number of duplicated rows: ", duplicate_rows_df.shape) to check for the number of duplicated rows
+
+8. Count number of rows
+- Use the command: df.count() to count the number of rows
+- Use the command: print(df.isnull().sum()) to see the number of empty columns
+
+9. Detecting outliers
+- An outlier is a point or set of points that are different from other points. Sometimes they can be very high or very low.
+- It's often a good idea to detect and remove the outliers because they are one of the primary reasons for resulting in a less accurate model. 
+- Use the command: sns.boxplot(x=df['price']) to check for outliers in price
+- Use the command: Q1 = df.quantile(0.25)
+                   Q3 = df.quantile(0.75)
+                   IQR = Q3 - Q1
+                   print(IQR)
+- Use the command: df = df[~((df < (Q1 - 1.5 * IQR)) |(df > (Q3 + 1.5 * IQR))).any(axis=1)]
+
+10. Plot different features against one another (scatter), against frequency (histogram)
+- Histogram: It refers to the frequency of occurrence of variables in an interval.
+- Use the command: df.Make.value_counts().nlargest(num).plot(kind='bar', figsize=(x,y))
+- Use the command: plt.title("") to put the title of the histogram
+- Use the command: plt.ylabel('') to put a label on the y-axis
+- Use the command: plt.xlabel('') to put a label on the x-axis
+
+- Heat Maps: Is a type of plot which is necessary when we need to find the dependent variables.
+- One of the best way to find the relationship between the features can be done using heat maps.
+- Use the command: plt.figure(figsize=(x,y))
+                   c= df.corr()
+                   sns.heatmap(c,cmap="BrBG", annot=True)
+                   c
+                   
+- Scatterplot: We generally use scatter plots to find the correlation between two variables.
+- Use the command: fig, ax = plt.subplots(figsize=(x,y))
+                   ax.scatter(df['label A'], df['label B'])
+                   ax.set_xlabel('label A')
+                   ax.set_ylabel('label B')
+                   plt.show()
